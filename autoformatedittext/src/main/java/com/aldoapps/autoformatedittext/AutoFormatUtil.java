@@ -1,7 +1,9 @@
 package com.aldoapps.autoformatedittext;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  * Created by aldo on 21/08/16.
@@ -32,7 +34,7 @@ public class AutoFormatUtil {
     }
 
     private static String formatToStringWithoutDecimal(double value) {
-        NumberFormat formatter = new DecimalFormat(FORMAT_NO_DECIMAL);
+        NumberFormat formatter = new DecimalFormat(FORMAT_NO_DECIMAL, getDecimalFormatSymbol());
         return formatter.format(value);
     }
 
@@ -45,7 +47,14 @@ public class AutoFormatUtil {
     }
 
     private static String formatWithDecimal(double price) {
-        NumberFormat formatter = new DecimalFormat(FORMAT_WITH_DECIMAL);
+        NumberFormat formatter = new DecimalFormat(FORMAT_WITH_DECIMAL, getDecimalFormatSymbol());
         return formatter.format(price);
+    }
+
+    public static DecimalFormatSymbols getDecimalFormatSymbol() {
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+        decimalFormatSymbols.setGroupingSeparator(',');
+        decimalFormatSymbols.setDecimalSeparator('.');
+        return decimalFormatSymbols;
     }
 }
