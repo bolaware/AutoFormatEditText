@@ -120,7 +120,6 @@ public class AutoFormatEditText extends EditText {
     private void formatInput(String input, int start, int action) {
         StringBuilder sbResult = new StringBuilder();
         String result;
-        int newStart = start;
 
         try {
             // Extract value without its comma
@@ -173,47 +172,30 @@ public class AutoFormatEditText extends EditText {
                 sbResult.append(result);
             }
 
-            newStart += ((action == ACTION_DELETE) ? 0 : 1);
-
             // calculate comma amount in edit text
             commaAmount += AutoFormatUtil.getCommaOccurrence(result);
 
             // flag to mark whether new comma is added / removed
             if (commaAmount >= 1 && prevCommaAmount != commaAmount) {
-                newStart += ((action == ACTION_DELETE) ? -1 : 1);
                 prevCommaAmount = commaAmount;
             }
 
             // case when deleting without comma
             if (commaAmount == 0 && action == ACTION_DELETE && prevCommaAmount != commaAmount) {
-                newStart -= 1;
                 prevCommaAmount = commaAmount;
             }
 
             // case when deleting without dots
             if (action == ACTION_DELETE && !sbResult.toString().contains(".")
                 && prevCommaAmount != commaAmount) {
-                newStart = start;
                 prevCommaAmount = commaAmount;
             }
 
             int resultLength = sbResult.toString().length();
 
-            // case when dots become comma and vice versa.
-            if (action == ACTION_INSERT && commaAmount == 0 && sbResult.toString().contains(".")) {
-                newStart = start;
-            }
-
             setText(sbResult.toString());
 
-            // ensure newStart is within result length
-            if (newStart > resultLength) {
-                newStart = resultLength;
-            } else if (newStart < 0) {
-                newStart = 0;
-            }
-
-            setSelection(newStart);
+            setSelection(resultLength);
 
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
             e.printStackTrace();
