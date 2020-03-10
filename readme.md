@@ -19,7 +19,7 @@ While this is easy to achieve using simple format, I find it challenging when yo
 # Usage:
 add this on your app level gradle
 
-```compile 'com.aldoapps:autoformatedittext:0.9.3'```
+```compile 'com.github.bolaware:AutoFormatEditText:2.0'```
 
 # Example
 See sample app to see it in action. It's very simple, just apply AutoFormatEditText like an EditText on your layout
